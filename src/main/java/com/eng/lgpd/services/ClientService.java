@@ -2,13 +2,13 @@ package com.eng.lgpd.services;
 import java.util.List;
 import java.util.Optional;
 
-import com.eng.lgpd.models.Client;
-import com.eng.lgpd.repositories.ClientRepository;
-
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
+import com.eng.lgpd.models.Client;
+import com.eng.lgpd.repositories.ClientRepository;
 
 @Service
 public class ClientService {
@@ -21,8 +21,8 @@ public class ClientService {
     }
 
     public Client findById(Long id){
-        Optional<Client> obj = clienteRepository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado!", obj));
+		Optional<Client> obj = clienteRepository.findById(id);
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado!", null));
     }
 
     public Client create(Client cliente){
