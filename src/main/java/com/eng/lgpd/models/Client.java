@@ -1,26 +1,31 @@
 package com.eng.lgpd.models;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import com.eng.lgpd.enums.Profiles;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode
 @ToString
 @Entity
@@ -54,4 +59,33 @@ public class Client implements Serializable {
 	@Column(unique = true)
 	private String phone;
 	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "PERFIS")
+	protected Set<Integer> profiles = new HashSet<>();
+	
+	public Client() {
+		super();
+		addPerfis(Profiles.CLIENT);
+	}
+	
+	public Client(Long id, @NotNull @NotEmpty String name, @NotNull @NotEmpty String email,
+			@NotNull @NotEmpty String password, @NotNull @NotEmpty String phone) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.phone = phone;
+		addPerfis(Profiles.CLIENT);
+	}
+	
+	
+	public Set<Profiles> getProfiles() {
+		return profiles.stream().map(x -> Profiles.valueOf(x)).collect(Collectors.toSet());
+	}
+
+	public void addPerfis(Profiles perfis) {
+		this.profiles.add(perfis.getCode());
+	}
+
 }
