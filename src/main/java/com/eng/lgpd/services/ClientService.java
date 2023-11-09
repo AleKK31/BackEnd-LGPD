@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.eng.lgpd.models.Client;
@@ -15,6 +16,9 @@ public class ClientService {
 
     @Autowired
     private ClientRepository clienteRepository;
+    
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     public List<Client> findAll(){
         return clienteRepository.findAll();
@@ -27,6 +31,7 @@ public class ClientService {
 
     public Client create(Client cliente){
         cliente.setId(null);
+        cliente.setPassword(encoder.encode(cliente.getPassword()));
 		ValidationByTelAndEmail(cliente);
 		return clienteRepository.save(cliente);
     }
