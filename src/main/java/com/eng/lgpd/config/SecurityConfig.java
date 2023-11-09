@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,7 +27,7 @@ import com.eng.lgpd.security.JwtAuthorizationFilter;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC_MATCHES = { "/h2-console/**" };
+	private static final String[] PUBLIC_MATCHES = { "/api/clientes/**" };
 
 	@Autowired
 	private Environment env;
@@ -42,13 +43,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
 			http.headers().frameOptions().disable();
 		}
+	    http.cors().and().csrf().disable();
+	    http.addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtUtil));
+	    http.addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 
-		http.cors().and().csrf().disable();
-		http.addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtUtil));
-		http.addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
-		http.authorizeRequests().antMatchers(PUBLIC_MATCHES).permitAll().anyRequest().authenticated();
+	    http.authorizeRequests()
+	    	.antMatchers(PUBLIC_MATCHES).permitAll()
+	    	.anyRequest().authenticated();
 
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	    http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
 	@Override

@@ -37,7 +37,7 @@ public class ClientController {
 		return ResponseEntity.ok().body(new Client(cliente));
     }
 
-    @PostMapping
+    @PostMapping("")
     public ResponseEntity<Client> create(@RequestBody Client cliente){
         Client newcliente = clienteService.create(cliente);
 		URI uri = ServletUriComponentsBuilder
