@@ -29,10 +29,10 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @Entity
-@Table(name = "user_db")
-public class Client implements Serializable {
+@Table(name = "admin_db")
+public class Admin implements Serializable {
 	
-	public Client(Client cliente) {
+	public Admin(Admin administrador) {
     }
 
     private static final long serialVersionUID = 1L;
@@ -60,15 +60,15 @@ public class Client implements Serializable {
 	private String phone;
 	
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "CLIENT_PERFIS")
+	@CollectionTable(name = "ADMIN_PERFIS")
 	protected Set<Integer> profiles = new HashSet<>();
 	
-	public Client() {
+	public Admin() {
 		super();
-		addPerfis(Profiles.CLIENT);
+		addPerfis(Profiles.ADMIN);
 	}
 	
-	public Client(Long id, @NotNull @NotEmpty String name, @NotNull @NotEmpty String email,
+	public Admin(Long id, @NotNull @NotEmpty String name, @NotNull @NotEmpty String email,
 			@NotNull @NotEmpty String password, @NotNull @NotEmpty String phone) {
 		super();
 		this.id = id;
@@ -76,7 +76,7 @@ public class Client implements Serializable {
 		this.email = email;
 		this.password = password;
 		this.phone = phone;
-		addPerfis(Profiles.CLIENT);
+		addPerfis(Profiles.ADMIN);
 	}
 	
 	

@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 import com.eng.lgpd.enums.Profiles;
 import com.eng.lgpd.models.Client;
 import com.eng.lgpd.repositories.ClientRepository;
+import com.eng.lgpd.models.Admin;
+import com.eng.lgpd.repositories.AdminRepository;
+
 
 @Service
 public class DBservice {
 	@Autowired
 	private ClientRepository clienteRepository;
-	
+	private AdminRepository administradorRepository;
+
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 	
