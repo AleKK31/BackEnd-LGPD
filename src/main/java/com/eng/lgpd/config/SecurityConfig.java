@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	    http.authorizeRequests()
 	    	.antMatchers(PUBLIC_MATCHES).permitAll()
-			.antMatchers("/api/administradores/**").permitAll()
+			.antMatchers("/api/admins/**").permitAll()
 	    	.anyRequest().authenticated();
 
 	    http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

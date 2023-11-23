@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.eng.lgpd.models.Admin;
+import com.eng.lgpd.dtos.AdminDTO;
 import com.eng.lgpd.repositories.AdminRepository;
 import com.eng.lgpd.security.UserSS;
 
@@ -22,7 +22,7 @@ public class AdminDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Admin> admin = adminRepository.findByEmail(email);
+        Optional<AdminDTO> admin = adminRepository.findByEmail(email);
         if (admin.isPresent()) {
             return new UserSS(admin.get().getId(), admin.get().getEmail(), admin.get().getPassword(), admin.get().getProfiles());
         }

@@ -20,14 +20,17 @@ import com.eng.lgpd.repositories.ArquivoRepository;
 public class DBservice {
 	@Autowired
 	private ClientRepository clienteRepository;
-	private AdminRepository administradorRepository;	
+	@Autowired
+	private AdminRepository adminRepository;	
 	private ArquivoRepository arquivoRepository;
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 	
-	public void intanciaDB() {
+	public void instanciaDB() {
 		
-
+		Admin adm = new Admin(null, "Vinicisu", "vi1@gmail.com", encoder.encode("12345"), "44984559911");
+		
+		adminRepository.save(adm);
 	}
 }
