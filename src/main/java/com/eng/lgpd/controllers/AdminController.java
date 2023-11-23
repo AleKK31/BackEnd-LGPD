@@ -2,8 +2,8 @@ package com.eng.lgpd.controllers;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.eng.lgpd.models.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,47 +16,50 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.eng.lgpd.dtos.AdminDTO;
+import com.eng.lgpd.models.Admin;
 import com.eng.lgpd.services.AdminService;
 
 @RestController
-@RequestMapping("/api/administradores")
+@RequestMapping("/api/admins")
 
 public class AdminController {
     
     @Autowired
-    private AdminService administradorService;
+    private AdminService adminService; 
 
     @GetMapping
-    public List<Admin> findAll(){
-        return administradorService.findAll();
-    }
+	public ResponseEntity<List<AdminDTO>> findAll(){
+		List<Admin> list = adminService.findAll();
+		List<AdminDTO> listDTO = list.stream().map(obj -> new AdminDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
 
     @GetMapping("/{id}")
-    public ResponseEntity<Admin> findById(@PathVariable Long id){
-        Admin administrador = administradorService.findById(id);
-		return ResponseEntity.ok().body(new Admin(administrador));
+    public ResponseEntity<AdminDTO> findById(@PathVariable Long id){
+    	Admin admin = adminService.findById(id);
+		return ResponseEntity.ok().body(new AdminDTO(admin));
     }
 
     @PostMapping("")
-    public ResponseEntity<Admin> create(@RequestBody Admin administrador){
-        Admin newadministrador = administradorService.create(administrador);
+    public ResponseEntity<AdminDTO> create(@RequestBody AdminDTO Admin){
+        Admin newAdmin = adminService.create(Admin);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentContextPath()
 				.path("/{id}")
-				.buildAndExpand(newadministrador.getId())
+				.buildAndExpand(newAdmin.getId())
 				.toUri();
 		return ResponseEntity.created(uri).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Admin> delete(@PathVariable Long id){
-        administradorService.delete(id);
+    public ResponseEntity<AdminDTO> delete(@PathVariable Long id){
+        adminService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Admin> update(@RequestBody Admin administrador, @PathVariable Long id){
-        Admin obj = administradorService.update(id, administrador); 
-		return ResponseEntity.ok().body(new Admin(obj));
+    public ResponseEntity<Admin> update(@RequestBody AdminDTO Admin, @PathVariable Long id){
+		return ResponseEntity.ok().body(adminService.update(id, Admin));
     }
 }
