@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.eng.lgpd.enums.Profiles;
 import com.eng.lgpd.models.Client;
 import com.eng.lgpd.repositories.ClientRepository;
-
+import com.eng.lgpd.repositories.FormularioRepository;
 import com.eng.lgpd.models.Admin;
 import com.eng.lgpd.repositories.AdminRepository;
 
@@ -23,7 +23,7 @@ public class DBservice {
 	@Autowired
 	private AdminRepository adminRepository;	
 	private ArquivoRepository arquivoRepository;
-
+	private FormularioRepository formularioRepository;
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 	
