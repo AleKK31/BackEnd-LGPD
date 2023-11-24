@@ -2,8 +2,8 @@ package com.eng.lgpd.controllers;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.eng.lgpd.models.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.eng.lgpd.dtos.ClientDTO;
+import com.eng.lgpd.models.Client;
 import com.eng.lgpd.services.ClientService;
 
 @RestController
@@ -24,21 +26,23 @@ import com.eng.lgpd.services.ClientService;
 public class ClientController {
     
     @Autowired
-    private ClientService clienteService;
+    private ClientService clienteService; 
 
     @GetMapping
-    public List<Client> findAll(){
-        return clienteService.findAll();
-    }
+	public ResponseEntity<List<ClientDTO>> findAll(){
+		List<Client> list = clienteService.findAll();
+		List<ClientDTO> listDTO = list.stream().map(obj -> new ClientDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
 
     @GetMapping("/{id}")
-    public ResponseEntity<Client> findById(@PathVariable Long id){
-        Client cliente = clienteService.findById(id);
-		return ResponseEntity.ok().body(new Client(cliente));
+    public ResponseEntity<ClientDTO> findById(@PathVariable Long id){
+    	Client cliente = clienteService.findById(id);
+		return ResponseEntity.ok().body(new ClientDTO(cliente));
     }
 
     @PostMapping("")
-    public ResponseEntity<Client> create(@RequestBody Client cliente){
+    public ResponseEntity<ClientDTO> create(@RequestBody ClientDTO cliente){
         Client newcliente = clienteService.create(cliente);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentContextPath()
@@ -49,14 +53,13 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Client> delete(@PathVariable Long id){
+    public ResponseEntity<ClientDTO> delete(@PathVariable Long id){
         clienteService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Client> update(@RequestBody Client cliente, @PathVariable Long id){
-        Client obj = clienteService.update(id, cliente); 
-		return ResponseEntity.ok().body(new Client(obj));
+    public ResponseEntity<Client> update(@RequestBody ClientDTO cliente, @PathVariable Long id){
+		return ResponseEntity.ok().body(clienteService.update(id, cliente));
     }
 }

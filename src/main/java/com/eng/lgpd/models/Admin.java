@@ -14,9 +14,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.eng.lgpd.dtos.AdminDTO;
 import com.eng.lgpd.enums.Profiles;
 
 import lombok.EqualsAndHashCode;
@@ -79,7 +81,14 @@ public class Admin implements Serializable {
 		addPerfis(Profiles.ADMIN);
 	}
 	
-	
+	public Admin(AdminDTO dto) {
+		this.id = dto.getId();
+		this.name = dto.getName();
+		this.email = dto.getEmail();
+		this.password = dto.getPassword();
+		this.phone = dto.getPhone();
+	}
+
 	public Set<Profiles> getProfiles() {
 		return profiles.stream().map(x -> Profiles.valueOf(x)).collect(Collectors.toSet());
 	}

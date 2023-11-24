@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.eng.lgpd.dtos.ClientDTO;
 import com.eng.lgpd.enums.Profiles;
 
 import lombok.EqualsAndHashCode;
@@ -31,9 +32,6 @@ import lombok.ToString;
 @Entity
 @Table(name = "user_db")
 public class Client implements Serializable {
-	
-	public Client(Client cliente) {
-    }
 
     private static final long serialVersionUID = 1L;
 
@@ -64,10 +62,17 @@ public class Client implements Serializable {
 	protected Set<Integer> profiles = new HashSet<>();
 	
 	public Client() {
-		super();
-		addPerfis(Profiles.CLIENT);
+
 	}
 	
+	public Client(ClientDTO dto) {
+		this.id = dto.getId();
+		this.name = dto.getName();
+		this.email = dto.getEmail();
+		this.password = dto.getPassword();
+		this.phone = dto.getPhone();
+	}
+
 	public Client(Long id, @NotNull @NotEmpty String name, @NotNull @NotEmpty String email,
 			@NotNull @NotEmpty String password, @NotNull @NotEmpty String phone) {
 		super();
@@ -76,9 +81,7 @@ public class Client implements Serializable {
 		this.email = email;
 		this.password = password;
 		this.phone = phone;
-		addPerfis(Profiles.CLIENT);
 	}
-	
 	
 	public Set<Profiles> getProfiles() {
 		return profiles.stream().map(x -> Profiles.valueOf(x)).collect(Collectors.toSet());
