@@ -50,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    http.authorizeRequests()
 	    	.antMatchers(PUBLIC_MATCHES).permitAll()
 			.antMatchers("/api/admins/**").permitAll()
+			.antMatchers("/api/formulario/**").permitAll()
 	    	.anyRequest().authenticated();
 
 	    http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
