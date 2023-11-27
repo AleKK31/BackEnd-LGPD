@@ -29,8 +29,8 @@ public class DBservice {
 	
 	public void instanciaDB() {
 		
-		Admin adm = new Admin(null, "Vinicisu", "vi1@gmail.com", encoder.encode("12345"), "44984559911");
+		//Admin adm = new Admin(null, "Vinicisu", "vi1@gmail.com", encoder.encode("12345"), "44984559911");
 		
-		adminRepository.save(adm);
+		//adminRepository.save(adm);
 	}
 }
