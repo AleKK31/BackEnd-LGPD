@@ -1,42 +1,32 @@
 package com.eng.lgpd.models;
 
-import javax.persistence.Column;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 @Entity
-@Table(name = "doc_db")
+@Data@NoArgsConstructor
+
 public class Arquivo {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
-    @NotNull
-	@NotEmpty
-    private String nome;
+    private String fileName;
+    private String fileType;
 
     @Lob
-    @Column(columnDefinition = "bytea")
-    private byte[] dados;
+    private byte[] data;
 
-    @Override
-    public String toString() {
-        return "Arquivo{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                '}';
+    public Arquivo(String fileName, String fileType, byte[] data) {
+        this.fileName = fileName;
+        this.fileType = fileType;
+        this.data = data;
     }
-    
 }

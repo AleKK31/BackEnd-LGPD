@@ -12,7 +12,6 @@ import com.eng.lgpd.repositories.ClientRepository;
 import com.eng.lgpd.repositories.FormularioRepository;
 import com.eng.lgpd.models.Admin;
 import com.eng.lgpd.repositories.AdminRepository;
-
 import com.eng.lgpd.models.Arquivo;
 import com.eng.lgpd.repositories.ArquivoRepository;
 
@@ -21,8 +20,10 @@ public class DBservice {
 	@Autowired
 	private ClientRepository clienteRepository;
 	@Autowired
-	private AdminRepository adminRepository;	
+	private AdminRepository adminRepository;
+	@Autowired	
 	private ArquivoRepository arquivoRepository;
+	@Autowired
 	private FormularioRepository formularioRepository;
 	@Autowired
 	private BCryptPasswordEncoder encoder;
