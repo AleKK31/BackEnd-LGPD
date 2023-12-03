@@ -36,9 +36,4 @@ public class Arquivo {
         this.data = data;
     }
 
-    @ElementCollection
-    @CollectionTable(name = "respostas", joinColumns = @JoinColumn(name = "arquivo_id"))
-    @Column(name = "respostas")
-    private List<String> respostas;
-
 }
