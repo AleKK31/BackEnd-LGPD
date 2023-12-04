@@ -1,20 +1,20 @@
 package com.eng.lgpd.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
+
+@AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class TokenResponse {
 	
     private String token;
-
-    public TokenResponse(String token) {
-        this.token = token;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
+    private List<String> authorities;
 }
 
 
