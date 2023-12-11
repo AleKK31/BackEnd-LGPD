@@ -20,40 +20,43 @@ public class ClientDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-	private Long id;
-	@NotNull(message = "O campo NOME esta vazio")
-	private String name;
-	@NotNull(message = "O campo EMAIL esta vazio")
-	private String email;
-	@NotNull(message = "O campo SENHA esta vazio")
-	private String password;
-	@NotNull
-	private String phone;
-	@NotNull
-	protected Set<Integer> profiles = new HashSet<>();
-	
-	public ClientDTO() {
-		super();
-		addPerfis(Profiles.CLIENT);
-	}
-	
-	public ClientDTO(Client cliente) {
-		super();
-		this.id = cliente.getId();
-		this.name = cliente.getName();
-		this.email = cliente.getEmail();
-		this.password = cliente.getPassword();
-		this.phone = cliente.getPhone();
-		addPerfis(Profiles.CLIENT);
-	}
-	
-	
-	public Set<Profiles> getProfiles() {
-		return profiles.stream().map(x -> Profiles.valueOf(x)).collect(Collectors.toSet());
-	}
+    private Long id;
 
-	public void addPerfis(Profiles perfis) {
-		this.profiles.add(perfis.getCode());
-	}
+    @NotNull(message = "O campo NOME esta vazio")
+    private String name;
 
+    @NotNull(message = "O campo EMAIL esta vazio")
+    private String email;
+
+    @NotNull(message = "O campo SENHA esta vazio")
+    private String password;
+
+    @NotNull
+    private String phone;
+
+    @NotNull
+    protected Set<String> profiles = new HashSet<>();  // Alteração aqui
+
+    public ClientDTO() {
+        super();
+        addPerfis(Profiles.CLIENT);
+    }
+
+    public ClientDTO(Client cliente) {
+        super();
+        this.id = cliente.getId();
+        this.name = cliente.getName();
+        this.email = cliente.getEmail();
+        this.password = cliente.getPassword();
+        this.phone = cliente.getPhone();
+        addPerfis(Profiles.CLIENT);
+    }
+
+    public Set<Profiles> getProfiles() {
+        return profiles.stream().map(x -> Profiles.valueOf(x)).collect(Collectors.toSet());
+    }
+
+    public void addPerfis(Profiles perfis) {
+        this.profiles.add(perfis.name());  // Alteração aqui
+    }
 }
